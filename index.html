@@ -69,23 +69,148 @@
     </form>
 
     <section id="error-btns">
-      <button>Console Log</button>
-      <button>Console Error</button>
-      <button>Console Count</button>
-      <button>Console Warn</button>
-      <button>Console Assert</button>
-      <button>Console Clear</button>
-      <button>Console Dir</button>
-      <button>Console dirxml</button>
-      <button>Console Group Start</button>
-      <button>Console Group End</button>
-      <button>Console Table</button>
-      <button>Start Timer</button>
-      <button>End Timer</button>
-      <button>Console Trace</button>
-      <button>Trigger a Global Error</button>
+      <button onclick="log_console()">Console Log</button>
+      <script>
+        function log_console() {
+          console.log("console log");
+        }
+      </script>
+
+      <button onclick="err_console()">Console Error</button>
+      <script>
+        function err_console() {
+          console.error("console err");
+        }
+      </script>
+
+      <button onclick="cnt_console()">Console Count</button>
+      <script>
+        function cnt_console() {
+          console.count('CSE110');
+        }
+      </script>
+
+      <button onclick="warn_console()">Console Warn</button>
+      <script>
+        function warn_console() {
+          console.warn('Warning!');
+        }
+      </script>
+
+      <button onclick="art_console()">Console Assert</button>
+      <script>
+        function art_console() {
+          console.assert(3 > 5);
+        }
+      </script>
+
+      <button onclick="clr_console()">Console Clear</button>
+      <script>
+        function clr_console() {
+          console.clear();
+        }
+      </script>
+
+      <button onclick="dir_console()">Console Dir</button>
+      <script>
+        function dir_console() {
+          console.dir(document.head);
+        }
+      </script>
+
+      <button onclick="dxl_console()">Console dirxml</button>
+      <script>
+        function dxl_console() {
+          console.dirxml(document);
+        }
+      </script>
+
+      <button onclick="gps_console()">Console Group Start</button>
+      <script>
+        function gps_console() {
+          console.group('Formed Group');
+        }
+      </script>
+
+      <button onclick="gpe_console()">Console Group End</button>
+      <script>
+        function gpe_console() {
+          console.groupEnd('Formed Group');
+        }
+      </script>
+
+      <button onclick="tbl_console()">Console Table</button>
+      <script>
+        function tbl_console() {
+          console.table(
+            [
+              {
+                Name: 'Qiang',
+                Age: 48,
+              },
+              {
+                Name: 'Juan',
+                Age: 50,
+              },
+              {
+                Name: 'Chenghao',
+                Age: 20,
+              }
+            ]
+          );
+        }
+      </script>
+
+      <button onclick="tis_console()">Start Timer</button>
+      <script>
+        function tis_console() {
+          console.time();
+        }
+      </script>
+
+      <button onclick="tie_console()">End Timer</button>
+      <script>
+        function tie_console() {
+          console.timeEnd();
+        }
+      </script>
+
+      <button onclick="tce_console()">Console Trace</button>
+      <script>
+        function tce_console() {
+          console.trace();
+        }
+      </script>
+
+      <button onclick="tri_console()">Trigger a Global Error</button>
+      <script>
+        function tri_console() {
+          console.log("Triggering a Global Error...");
+          const name = "Chenghao";
+          name = "William";
+        }
+      </script>
     </section>
   </main>
+
+  <script>
+    class YesError extends Error {
+      constructor(message) {
+        super(message); 
+        this.name = "SomeRandomError";
+      }
+    }
+
+    function catcherror() {
+      throw new YesError("Invalid");
+    }
+
+    try {
+      catcherror();
+    } catch(err) {
+      console.error(err.message);
+    }
+  </script>
 
   <script>
     let form = document.querySelector('form');
@@ -95,13 +220,45 @@
       let firstNum = document.querySelector('#first-num').value;
       let secondNum = document.querySelector('#second-num').value;
       let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      let cal = true;
+      try {
+        if(isNaN(firstNum)) {
+          throw new SyntaxError();
+        }
+      }
+      catch (SyntaxError) {
+        cal = false;
+        console.error("First number is invalid.");
+      }
+      try {
+        if(isNaN(secondNum)) {
+          throw new SyntaxError();
+        }
+      }
+      catch (SyntaxError) {
+        cal = false;
+        console.error("Second number was invalid.")
+      }
+      try {
+        if(cal) {
+          output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+        }
+      }
+      finally {
+        console.log("Finish Calculation");
+      }
     });
 
     let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
+  </script>
 
-    // Start your code here
-    // You may move this JS to another file if you wish
+  <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+  <script>
+    window.TrackJS && TrackJS.install({ 
+      token: "7c003e05861240daae1881d441c102d9"
+      // for more configuration options, see https://docs.trackjs.com
+    });
+    TrackJS.track('Testing TrackJS!');
   </script>
 </body>
 
